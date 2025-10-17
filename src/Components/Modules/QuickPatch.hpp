@@ -8,6 +8,7 @@ namespace Components
 		QuickPatch();
 
 		static void UnlockStats();
+		static Dvar::Var ui_streamFriendly;
 
 	private:
 		static Dvar::Var UIMousePitch;

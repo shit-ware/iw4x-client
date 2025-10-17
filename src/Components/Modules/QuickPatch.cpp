@@ -10,6 +10,8 @@ namespace Components
 
 	Dvar::Var QuickPatch::r_customAspectRatio;
 
+	Dvar::Var QuickPatch::ui_streamFriendly;
+
 	void QuickPatch::UnlockStats()
 	{
 		if (Dedicated::IsEnabled()) return;
@@ -301,6 +303,7 @@ namespace Components
 	{
 		// Filtering any mapents that is intended for Spec:Ops gamemode (CODO) and prevent them from spawning
 		Utils::Hook(0x5FBD6E, QuickPatch::IsDynClassname_Stub, HOOK_CALL).install()->quick();
+		ui_streamFriendly = Game::Dvar_RegisterBool("ui_streamFriendly", false, Game::DVAR_ARCHIVE, "Hide sensitive info during streaming");
 
 		// Hook escape handling on open console to change behaviour to close the console instead of only canceling autocomplete
 		Utils::Hook(0x4F66A3, CL_KeyEvent_ConsoleEscape_Stub, HOOK_JUMP).install()->quick();

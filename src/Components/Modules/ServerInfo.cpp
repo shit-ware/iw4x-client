@@ -6,6 +6,7 @@
 #include "ServerList.hpp"
 #include "UIFeeder.hpp"
 #include "Voice.hpp"
+#include "QuickPatch.hpp"
 
 #include <version.hpp>
 
@@ -97,9 +98,12 @@ namespace Components
 		const auto x = 320.0f - (*Game::cg_scoreboardWidth)->current.value * 0.5f;
 		const auto x2 = 320.0f + (*Game::cg_scoreboardWidth)->current.value * 0.5f;
 
-		constexpr auto fontSize = 0.35f;
-		Game::UI_DrawText(cxt, reinterpret_cast<const char*>(0x7ED3F8), std::numeric_limits<int>::max(), font, x, y, 0, 0, fontSize, reinterpret_cast<float*>(0x747F34), 3);
-		Game::UI_DrawText(cxt, addressText.data(), std::numeric_limits<int>::max(), font, x2 - Game::UI_TextWidth(addressText.data(), 0, font, fontSize), y, 0, 0, fontSize, reinterpret_cast<float*>(0x747F34), 3);
+		if (!QuickPatch::ui_streamFriendly.get<bool>())
+		{
+			constexpr auto fontSize = 0.35f;
+			Game::UI_DrawText(cxt, reinterpret_cast<const char*>(0x7ED3F8), std::numeric_limits<int>::max(), font, x, y, 0, 0, fontSize, reinterpret_cast<float*>(0x747F34), 3);
+			Game::UI_DrawText(cxt, addressText.data(), std::numeric_limits<int>::max(), font, x2 - Game::UI_TextWidth(addressText.data(), 0, font, fontSize), y, 0, 0, fontSize, reinterpret_cast<float*>(0x747F34), 3);
+		}
 	}
 
 	__declspec(naked) void ServerInfo::DrawScoreboardStub()
